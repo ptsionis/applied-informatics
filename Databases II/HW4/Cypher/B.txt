@@ -1,0 +1,32 @@
+//B
+
+//1
+MATCH (u:User{surname:"Hopkins"}), (b:Book)-[is_a]->(g:Genre{genre:"historical"})
+MERGE (u)-[r:RATED]->(b)
+SET r.rank = 4.5;
+
+//2
+MATCH (u:User{name:"Ed", surname:"Harris"}), (b:Book{title:"The Hours"})
+MERGE (u)-[bor:BORROWED{borrowed_at:"15-04-2019"}]->(b)
+MERGE (u)-[r:RATED{rank:3}]->(b);
+
+//3
+MATCH (b:Book), (b)-[]->(g:Genre)
+WHERE b.title = "Huckleberry Finn" 
+    OR b.title = "Tom Sawyer" 
+    OR b.title = "Harry Potter" 
+    OR b.title = "The Hobbit"
+MERGE (new_g:Genre{genre:"children's literature"})
+MERGE (b)-[:IS_A]->(new_g);
+
+//4
+MATCH (u:User{surname: "Pacino"}), (b:Book)
+WHERE b.title = "The Hours"
+    OR b.title = "Bleak House"
+MERGE (u)-[:BORROWED{borrowed_at:"20-04-2019"}]->(b);
+
+//5
+MATCH (b:Book{title:"A Game of Thrones"}), (g:Genre)
+WHERE g.genre = "fantasy"
+    OR g.genre = "adventure"
+MERGE (b)-[:IS_A]->(g);

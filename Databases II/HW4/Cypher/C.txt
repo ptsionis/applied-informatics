@@ -1,0 +1,49 @@
+//C
+
+//1
+MATCH (b:Book)-[]->(g:Genre)
+WHERE g.genre = "classic"
+    OR g.genre = "fantasy"
+    OR g.genre = "adventure"
+RETURN b;
+
+//2
+MATCH (u:User), (b:Book), (g:Genre{genre:"children's literature"})
+WHERE (b)-[:IS_A]->(g)
+    AND (u)-[:RATED]->(b)
+RETURN u, b;
+
+//3
+MATCH (u:User{surname:"Harris"})-[r]->(b:Book{title:"The Hours"})
+RETURN type(r), r;
+
+//4
+MATCH (u:User)-[r:RATED]->(b:Book)
+WHERE r.rank > 4
+RETURN b.title, r.rank;
+
+//5
+MATCH (u:User)-[bor:BORROWED]->(b:Book) WITH b, COUNT(*) AS counter
+WHERE counter > 4
+RETURN b.title, counter
+ORDER BY counter DESC;
+
+//6
+MATCH (u:User)-[r:BORROWED|RATED]->(b:Book)
+RETURN u.name, u.surname, COUNT(r) AS rels
+ORDER BY rels DESC
+LIMIT 3;
+
+//7
+MATCH (b:Book)
+WHERE NOT EXISTS((:User)-[:BORROWED|RATED]->(b))
+RETURN b.title
+
+//8
+MATCH (norton:User{surname:"Norton"})-[:BORROWED]->(b:Book)<-[:BORROWED]-(u:User)
+RETURN u, b
+
+//9
+MATCH (gary:User{surname:"Oldman"})-[:BORROWED]->(:Book)<-[:BORROWED]-(:User)-[r:RATED]->(b:Book)
+WHERE r.rank > 3 AND NOT EXISTS ((gary)-[:RATED|BORROWED]->(b))
+RETURN b

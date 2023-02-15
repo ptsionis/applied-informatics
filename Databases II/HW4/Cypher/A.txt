@@ -1,0 +1,35 @@
+//A
+
+//Creating the Book nodes
+LOAD CSV WITH HEADERS FROM 'file:///books.csv' AS row
+CREATE (b:Book{title:row.title, author:row.author, year_written:toInteger(row.year_written), edition:row.edition, price:toFloat(row.price)});
+
+//Creating the User nodes
+LOAD CSV WITH HEADERS FROM 'file:///users.csv' AS row
+CREATE (u:User{id:toInteger(row.id), name:row.Name, surname: row.Surname, brith_date: row.BirthDate});
+
+//Creating the Editor nodes
+LOAD CSV WITH HEADERS FROM 'file:///editors.csv' AS row
+CREATE (e:Editor{publisher:row.publisher, address:row.address});
+
+//Creating the Genre nodes
+LOAD CSV WITH HEADERS FROM 'file:///genres.csv' AS row
+MERGE (g:Genre{genre:row.genre});
+
+//Creating the BORROWED relationship between User and Book
+LOAD CSV WITH HEADERS FROM 'file:///borrowed.csv' AS row
+MATCH (u:User), (b:Book)
+WHERE u.id = toInteger(row.userid) AND b.title = row.title
+MERGE (u)-[bor:BORROWED{borrowed_at:row.date}]->(b);
+
+//Creating the RATED relationship between User and Book
+LOAD CSV WITH HEADERS FROM 'file:///rated.csv' AS row
+MATCH (u:User), (b:Book)
+WHERE u.id = toInteger(row.userid) AND b.title = row.title
+MERGE (u)-[ra:RATED{rank:toInteger(row.rank)}]->(b);
+
+//Creating the IS_A relationship between Book and Genre
+LOAD CSV WITH HEADERS FROM 'file:///genres.csv' AS row
+MATCH (b:Book), (g:Genre)
+WHERE b.title = row.title AND g.genre = row.genre
+MERGE (b)-[gen:IS_A]->(g);
