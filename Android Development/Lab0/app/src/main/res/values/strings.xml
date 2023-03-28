@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Lab0</string>
+    <string name="myTextView">Enter your name...</string>
+    <string name="myButton">Enter</string>
+</resources>
