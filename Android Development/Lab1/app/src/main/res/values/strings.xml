@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Lab1</string>
+    <string name="counterView">0</string>
+    <string name="counterBtn">Counter</string>
+    <string name="toastBtn">Toast</string>
+    <string name="randomBtn">Random</string>
+    <string name="counterHeaderView">A random number between 1 and</string>
+    <string name="randomView">R</string>
+    <string name="previousBtn">Previous</string>
+</resources>
