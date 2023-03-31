@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="pick_a_brand">Pick a brand</string>
+    <string name="Tomota" translatable="false">Tomota</string>
+    <string name="WW" translatable="false">WW</string>
+    <string name="Fissan" translatable="false">Fissan</string>
+    <string-array name="brands">
+        <item>@string/Tomota</item>
+        <item>@string/WW</item>
+        <item>@string/Fissan</item>
+    </string-array>
+    <string name="toast_no_cars">%s has no models. Pick another!</string>
+</resources>
